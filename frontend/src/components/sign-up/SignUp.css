@@ -1,0 +1,106 @@
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signUpContainer {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    gap: 5dvh;
+}
+
+.loginRegisterHeader {
+    color: #8A6240;
+    text-align: center;
+    font-family: Inter;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 2.88px;
+
+}
+
+.formContainer {
+    border-radius: 14px;
+    background: #202020;
+    box-shadow: 0px 0px 38px 4px #324B3E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 36px;
+}
+
+.formContainer h2 {
+    color: #324B3E;
+    text-align: center;
+    font-family: Inter;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    letter-spacing: 3.08px;
+    width: 167px;
+    height: 70px;
+}
+
+.signUpForm {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.formElementsContainer {
+    padding: 8px 14px;
+}
+
+.inputContainer {
+    padding: 3px 6px;
+    border-bottom: 1px solid #AAA;
+    color: white;
+    transition: 0.2s ease-in-out;
+}
+
+.formElementsContainer div input {
+    background-color: transparent;
+    border: none;
+    outline-width: 0;
+    color: #AAA;
+    font-size: 14px;
+    width: 310px;
+}
+
+.inputContainer:focus-within {
+    border-bottom: 1px solid #8AA56E;
+}
+
+.formElementsContainer label {
+    margin-left: 6px;
+    color: #FFF;
+
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.72px;
+}
+
+.submit {
+    width: 234px;
+    height: 48px;
+    border-radius: 32px;
+    background: #75413B;
+    border: none;
+    margin: 12px auto 8px auto;
+}
+
+.submit + p {
+    text-align: center;
+}
+
+.submit + p > a {
+    color: #75413B;
+}
