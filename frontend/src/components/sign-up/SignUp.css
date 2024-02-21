@@ -12,7 +12,7 @@
 }
 
 .loginRegisterHeader {
-    color: #8A6240;
+    color: #75413B;
     text-align: center;
     font-family: Inter;
     font-size: 32px;
@@ -59,7 +59,7 @@
 .inputContainer {
     padding: 3px 6px;
     border-bottom: 1px solid #AAA;
-    color: white;
+    color: #aaa;
     transition: 0.2s ease-in-out;
 }
 
@@ -103,4 +103,9 @@
 
 .submit + p > a {
     color: #75413B;
+}
+
+#error {
+    text-align: center;
+    color: #B53B2D;
 }
