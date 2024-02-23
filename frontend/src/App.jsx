@@ -19,11 +19,11 @@ import MyTasks from './components/myTasks/MyTasks';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [todo, setTodo] = {
+  const [todo, setTodo] = useState({
     task: "",
     completed: false,
     completeBy: "",
-  }
+  })
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
