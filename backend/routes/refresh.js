@@ -9,7 +9,9 @@ module.exports = (req, res) => {
         res.status(401).json({msg: "not authorized"})
     }
 
-    const newToken = jwt.sign({username: result.username, email: result.email}, process.env.JWT_LOGIN_KEY)
+    console.log("refresh")
+
+    const newToken = jwt.sign({username: result.username, email: result.email}, process.env.JWT_LOGIN_KEY, {expiresIn: '15s'})
 
     res.status(200).json({token: newToken, refreshToken: refreshToken})
 

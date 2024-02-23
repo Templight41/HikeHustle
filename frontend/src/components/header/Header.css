@@ -22,7 +22,7 @@
     background-color: transparent;
     border: transparent;
     color: #aaa;
-    cursor: default;
+    cursor: pointer;
 }
 
 .header h2 {

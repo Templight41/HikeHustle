@@ -1,0 +1,70 @@
+.tasksApp {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    justify-content: center;
+    grid-row: 1;
+    grid-column: 2;
+    box-sizing: border-box;
+    padding: 0 14px;
+}
+
+.tasksBoxContainer {
+    box-sizing: border-box;
+    width: 40%;
+    min-width: 270px;
+    max-width: 420px;
+    padding: 14px 16px;
+    min-height: 522px;
+}
+
+.tasksContainer {
+    height: calc(100% - 52px);
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #303030;
+}
+
+.overdue-gameContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.gameContainerTasks {
+    height: 242px;
+    box-sizing: border-box;
+}
+
+
+.gameContainer {
+    height: calc(242px - 52px);
+}
+
+.tasksContainerOverdue {
+    height: 100%;
+}
+
+.tasksHeading {
+    height: 52px;
+    padding: 14px 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tasksContainer, .gameContainer {
+    border-radius: 8px;
+}
+
+.tasksHeading button {
+    background-color: transparent;
+    border: transparent;
+    color: #888888;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.tasksHeading button:hover {
+    color: #aaa;
+}

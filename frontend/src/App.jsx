@@ -11,22 +11,30 @@ import {
 import { useJwt } from "react-jwt";
 import Logout from './components/logout/Logout';
 import Home from './components/home/Home';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Refresh from './components/refresh/Refresh';
 import MyTasks from './components/myTasks/MyTasks';
 
 
 
 function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [todo, setTodo] = {
+    task: "",
+    completed: false,
+    completeBy: "",
+  }
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  } 
   
-
-
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />}/>
-        <Route path="/tasks" element={<MyTasks />} />
+        <Route path='/' element={<Home toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>}/>
+        <Route path="/tasks" element={<MyTasks  toggleMenu={toggleMenu} isMenuOpen={isMenuOpen}/>} />
         <Route path='/signup' element={<SignUp/>} />
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />

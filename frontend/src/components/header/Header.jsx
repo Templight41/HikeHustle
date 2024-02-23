@@ -2,12 +2,13 @@ import './Header.css'
 import Avatar from '@mui/material/Avatar';
 import { teal } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from "react-router-dom";
 
-export default function Header() {
+export default function Header({toggleMenu}) {
     return (
         <div className="header">
             <div className="sandwichButton">
-                <button id='sideBarButton'>
+                <button id='sideBarButton' onClick={toggleMenu}>
                     <MenuIcon style={{
                         fontSize: 34,
                         width: 34
@@ -19,7 +20,7 @@ export default function Header() {
             <h2>HikeHustle</h2>
 
             <div className='profile'>
-                <a href="/profile">
+                <Link to="/profile">
                 <Avatar
                     sx={{ bgcolor: teal[800] }}
                     alt="Remy Sharp"
@@ -32,7 +33,7 @@ export default function Header() {
                 >
                     B
                 </Avatar>
-                </a>
+                </Link>
             </div>
         </div>
     )

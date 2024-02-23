@@ -5,16 +5,18 @@ import { teal } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 
-export default function Home() {
+export default function Home({toggleMenu, isMenuOpen}) {
     const selectedButton = {
         color: "#aaa"
     }
     
     return (
         <>
-            <Header />
+            <Header toggleMenu={toggleMenu}/>
             <div className="bodyContent">
-                <SideBar/>
+                {isMenuOpen && (
+                    <SideBar />
+                )}
                 <div className="homeApp">
                     <div className="greetingContainer">
                         <span className="greeting">
