@@ -1,0 +1,142 @@
+.homeApp {
+    display: inline-block;
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.greetingContainer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 64px 64px 18px;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+.greeting p {
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.greeting h2 {
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 3px;
+}
+
+.breifDataContainer {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.briefData {
+    /* border: 1px solid #aaa; */
+    font-family: sans-serif;
+    display: flex;
+    height: 40px;
+    padding: 3px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 22px;
+    border-radius: 36px;
+    background: #292929;
+}
+
+.dataContainer {
+    /* background-color: #aaa; */
+    /* flex-grow: 2; */
+    display: flex;
+    flex-direction: row;
+    padding: 48px 48px 0 48px;
+    gap: 4%;
+    justify-content: center;
+}
+
+.dataHome {
+    min-width: 394px;
+    max-width: 540px;
+    min-height: 280px;
+    max-height: 384px;
+    flex-grow: 1;
+    border-radius: 14px;
+}
+
+.myTasksContainer {
+    display: flex;
+    background-color: #292929;
+    flex-direction: column;
+    align-items: center;
+    /* gap: 16px; */
+}
+
+.myTasksContainerTop {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px 24px 0 24px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+}
+
+.profile.homeProfile {
+    width: 44px;
+    height: 44px;
+}
+
+.buttonList {
+    display: flex;
+    gap: 42px;
+    padding: 8px 0;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    border-bottom: 1px solid #aaa;
+}
+
+.buttonList button {
+    background-color: transparent;
+    border: transparent;
+    color: #888888;
+    font-family: sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.buttonList button:hover {
+    color: #aaa;
+}
+
+.tasksContainerBottom {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 24px 32px;
+    flex-direction: column;
+}
+
+.tasksContainerBottom button {
+    background-color: #303030;
+    border: transparent;
+    color: #aaa;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 6px;
+    width: 124px;
+    border-radius: 8px;
+    padding: 4px 16px;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.tasksContainerBottom button:hover {
+    background-color: #4d4d4d;
+}
+
+.gameContainer {
+    background-color: #aaa;
+}

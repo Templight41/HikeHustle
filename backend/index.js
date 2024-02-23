@@ -17,10 +17,13 @@ const Users = require("./schema/users")
 //routes
 const signup = require("./routes/signup")
 const login = require("./routes/login")
+const refresh = require("./routes/refresh")
 
 app.post("/signup", signup)
 
 app.post("/login", login)
+
+app.post("/refresh", refresh)
 
 
 app.listen(3000, () => {

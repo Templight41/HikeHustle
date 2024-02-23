@@ -5,7 +5,7 @@ export default function SignUp() {
     return(
         <div className="signUpContainer">
 
-            <h1 className="loginRegisterHeader">HikeHustle</h1>
+            <h1 className="loginRegisterHeader"><a href="/">HikeHustle</a></h1>
 
             <div className="formContainer">
                 <h2>Sign Up</h2>

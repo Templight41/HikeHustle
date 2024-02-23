@@ -25,7 +25,7 @@ export default function SignUpForm() {
 
             // Submit form
             setError("")
-            axios.post("http://localhost:3000/signup", {...signUpForm})
+            axios.post("http://localhost:3000/signup", {...signUpForm}, {withCredentials: true})
             .then((res) => {
                 localStorage.setItem("token", JSON.stringify(res.data))
             })

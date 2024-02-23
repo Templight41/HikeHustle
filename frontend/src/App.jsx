@@ -4,23 +4,33 @@ import SignUp from './components/sign-up/SignUp'
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  useNavigate,
+  useLocation
 } from "react-router-dom";
 import { useJwt } from "react-jwt";
+import Logout from './components/logout/Logout';
+import Home from './components/home/Home';
+import { useEffect } from 'react';
+import Refresh from './components/refresh/Refresh';
+import MyTasks from './components/myTasks/MyTasks';
 
-const token = JSON.parse(localStorage.getItem("token")).Token
 
 
 function App() {
-  const { decodedToken, isExpired } = useJwt(token);
-  console.log(decodedToken)
-  console.log(isExpired)
+  
+
+
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<SignUp />} />
+        <Route path='/' element={<Home />}/>
+        <Route path="/tasks" element={<MyTasks />} />
+        <Route path='/signup' element={<SignUp/>} />
         <Route path='/login' element={<Login />} />
+        <Route path='/logout' element={<Logout />} />
+        <Route path='/refresh' element={<Refresh />} />
       </Routes>
     </BrowserRouter>
   )

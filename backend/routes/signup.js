@@ -14,13 +14,14 @@ module.exports = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(user.password, 10)
         
         // signing token and refresh token
-        const Token = jwt.sign({username: user.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '24h' })
+        const token = jwt.sign({username: user.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '24h' })
         const refreshToken = jwt.sign({username: user.username, email: user.email}, process.env.JWT_REFRESH_KEY)
         
         // inserting into database
         await Users.insertMany({username: user.username, refreshToken: refreshToken, email: user.email, password: hashedPassword})
         .then((result) => {
-            res.status(200).json({Token: Token, refreshToken: refreshToken, username: user.username, email: user.email})
+            res.cookie("refreshToken", refreshToken)
+            res.status(200).json({token: token, username: user.username, email: user.email})
         })
         .catch((err) => {
             res.status(409).json({error: "User exists"})

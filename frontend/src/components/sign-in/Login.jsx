@@ -5,7 +5,8 @@ export default function Login() {
     return(
         <div className="loginContainer">
 
-            <h1 className="loginRegisterHeader">HikeHustle</h1>
+            <h1 className="loginRegisterHeader"><a href="/">HikeHustle</a></h1>
+
 
             <div className="formContainer">
                 <h2>Login</h2>

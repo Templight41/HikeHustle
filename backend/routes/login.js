@@ -24,10 +24,10 @@ module.exports = async (req, res, next) => {
             throw new Error("Wrong password")
         }
 
-        const Token = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '24h' })
+        const token = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '24h' })
         const refreshToken = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_REFRESH_KEY)
 
-        res.status(200).json({Token: Token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email})
+        res.status(200).json({token: token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email})
 
     } catch (error) {
         console.log(error, "error")

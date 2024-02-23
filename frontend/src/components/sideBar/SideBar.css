@@ -1,0 +1,30 @@
+.sideBar {
+    display: inline-block;
+    width: 208px;
+    padding: 28px 14px;
+    box-sizing: border-box;
+    border-right: 1px solid #aaa;
+    grid-row: 1;
+    grid-column: 1;
+    
+}
+
+.sideBar a {
+    display: flex;
+    margin: 0 auto;
+    padding: 2px;
+    background-color: #303030;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    color: #aaa;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 12px;
+    font-size: 14px;
+    transition: 0.2s;
+    font-family: sans-serif;
+}
+
+.sideBar a:hover {
+    background-color: #4D4D4D;
+}
