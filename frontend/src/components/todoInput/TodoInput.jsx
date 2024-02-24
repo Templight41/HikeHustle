@@ -52,10 +52,10 @@ export default function TodoInput({buttonText, addTodo}) {
                     <div className="inputContainer todoInput">
                         <input type="type" id="todo" onChange={inputChange} value={todoInput}/>
                     </div>
-                    <label htmlFor="date">Due</label>
+                    {/* <label htmlFor="date">Due</label>
                     <div className="inputContainer">
                         <input type="date" id="date" onChange={dateChange} value={dateInput}/>
-                    </div>
+                    </div> */}
                 </div>
                 <button onClick={submit} className='todoAddButton'>Add</button>
             </div>
