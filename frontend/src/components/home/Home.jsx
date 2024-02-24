@@ -64,7 +64,7 @@ export default function Home({homePageButtonStatusOnClick, homePageStatus, toggl
                                 {(() => {
                                     if(homePageStatus == "todos") {
                                         if(todos.length > 0) {
-                                            todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)  <li key={todo.id}>{todo.task}</li>})
+                                            return todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)  <li key={todo.id}>{todo.task}</li>})
                                         }
                                         return <TodoInput addTodo={addTodo} buttonText={"Add task"}/>
                                     }
