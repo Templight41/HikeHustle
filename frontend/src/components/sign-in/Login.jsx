@@ -1,7 +1,7 @@
 import "./Login.css"
 import LoginForm from "./LoginForm"
 
-export default function Login() {
+export default function Login({apiUrl}) {
     return(
         <div className="loginContainer">
 
@@ -10,7 +10,7 @@ export default function Login() {
 
             <div className="formContainer">
                 <h2>Login</h2>
-                <LoginForm />
+                <LoginForm apiUrl={apiUrl}/>
             </div>
 
         </div>

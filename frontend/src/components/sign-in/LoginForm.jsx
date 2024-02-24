@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import validator from "validator"
 
-export default function LoginForm() {
+export default function LoginForm({apiUrl}) {
     let [error, setError] = useState("");
     
     let [loginForm, setLoginForm] = useState(
@@ -23,7 +23,7 @@ export default function LoginForm() {
 
             // Submit form
             setError("")
-            axios.post("http://localhost:3000/login", {...loginForm})
+            axios.post(`${apiUrl}/login`, {...loginForm})
             .then((res) => {
                 localStorage.setItem("token", JSON.stringify(res.data))
             })

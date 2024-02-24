@@ -15,19 +15,32 @@ import { useEffect, useState } from 'react';
 import Refresh from './components/refresh/Refresh';
 import MyTasks from './components/myTasks/MyTasks';
 import { v4 as uuidv4 } from "uuid"
+import { IndexedDB, AccessDB } from "react-indexed-db-hook";
+
+
+const apiUrl = "http://localhost:8080"
 
 
 
 function App() {
   const [updateComplete, setUpdateComplete] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userData, setUserData] = useState("")
+  const [userData, setUserData] = useState({level: 1})
   const [allTodos, setAllTodos] = useState([])
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
 
   const [petStatus, setPetStatus] = useState("/src/assets/standing.gif")
 
+  let db;
+const request = indexedDB.open("MyTestDatabase");
+request.onerror = (event) => {
+  console.error("Why didn't you allow my web app to use IndexedDB?!");
+};
+request.onsuccess = (event) => {
+  db = event.target.result;
+  console.log(db)
+};
   useEffect(() => {
     if(localStorage.getItem("token")) {
       setUserData(() => {
@@ -36,11 +49,13 @@ function App() {
         const username = token.username
         const level = 1
     
-        return {username: username, email: email, level}
+        return {username: username, email: email, level: level}
       })
 
     }
   }, [])
+
+  console.log(userData)
 
   useEffect(() => {
     const allTodosCopy = [...allTodos]
@@ -53,6 +68,7 @@ function App() {
     setAllTodos((todo) => {
       return [...todo, {id: uuidv4(), task: todoInfo.task, completed: false, completeBy: "todoInfo.completeBy"}]
     })
+
   }
 
   const deleteTodo = (todoId) => {
@@ -63,7 +79,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
         setPetStatus((status) => {
-            return "/src/assets/standing.gif"
+            return "/standing.gif"
         })
     }, 2500);
     return () => clearTimeout(timer);
@@ -71,7 +87,7 @@ function App() {
 
   //Todo Complete
   const completeTodo = (todoId) => {
-    setPetStatus("/src/assets/running.gif")
+    setPetStatus("/running.gif")
 
     setUpdateComplete((res) => !res)
 
@@ -98,16 +114,33 @@ function App() {
   } 
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
-        <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
-        <Route path='/signup' element={<SignUp/>} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/logout' element={<Logout />} />
-        <Route path='/refresh' element={<Refresh />} />
-      </Routes>
-    </BrowserRouter>
+    <IndexedDB
+      name="HikeHustle"
+      version={1}
+      objectStoresMeta={[
+        {
+          store: "aLLTodos",
+          storeSchema: [
+            { name: "id", keypath: "id", options: { unique: true }},
+            { name: "task", keypath: "email", options: { unique: false }},
+            { name: "completed", keypath: "completed", options: { unique: false}},
+            { name: "completeBy", keypath: "completeBy", options: { unique: false }}
+          ]
+        }
+      ]}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Home petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
+          <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
+          <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
+          <Route path='/login' element={<Login apiUrl={apiUrl}/>} />
+          <Route path='/logout' element={<Logout />} />
+          <Route path='/refresh' element={<Refresh apiUrl={apiUrl}/>} />
+        </Routes>
+      </BrowserRouter>
+    </IndexedDB>
+    
   )
 }
 

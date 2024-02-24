@@ -1,7 +1,7 @@
 import "./SignUp.css"
 import SignUpForm from "./SignUpForm"
 
-export default function SignUp() {
+export default function SignUp({apiUrl}) {
     return(
         <div className="signUpContainer">
 
@@ -9,7 +9,7 @@ export default function SignUp() {
 
             <div className="formContainer">
                 <h2>Sign Up</h2>
-                <SignUpForm />
+                <SignUpForm apiUrl={apiUrl}/>
             </div>
 
         </div>

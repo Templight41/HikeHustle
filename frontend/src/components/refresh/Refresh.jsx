@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-export default function Refresh() {
+export default function Refresh({apiUrl}) {
     const [response, setResponse] = useState(null);
     const [requestSent, setRequestSent] = useState(false);
 
@@ -12,7 +12,7 @@ export default function Refresh() {
     useEffect(() => {
         if(!requestSent) {
             const localToken = JSON.parse(localStorage.getItem("token"))
-            axios.post('http://localhost:3000/refresh', { refreshToken: localToken.refreshToken })
+            axios.post(`${apiUrl}/refresh`, { refreshToken: localToken.refreshToken })
             .then((res) => {
                 setResponse(res)
                 setRequestSent(true)

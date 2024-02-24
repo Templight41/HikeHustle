@@ -20,19 +20,19 @@ export default function Header({toggleMenu, userData}) {
             <h2>HikeHustle</h2>
 
             <div className='profile'>
-                <Link to="/profile">
-                <Avatar
-                    sx={{ bgcolor: teal[800] }}
-                    alt="No"
-                    src="/broken-image.jpg"
-                    style={{
-                        width: 'inherit',
-                        height: 'inherit',
-                        fontSize: 14
-                    }}
-                >
-                    {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
-                </Avatar>
+                <Link to="#">
+                    <Avatar
+                        sx={{ bgcolor: teal[800] }}
+                        alt="No"
+                        src="/broken-image.jpg"
+                        style={{
+                            width: 'inherit',
+                            height: 'inherit',
+                            fontSize: 14
+                        }}
+                    >
+                        {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
+                    </Avatar>
                 </Link>
             </div>
         </div>

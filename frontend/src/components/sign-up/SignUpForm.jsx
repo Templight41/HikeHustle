@@ -3,7 +3,7 @@ import axios from "axios"
 import validator from "validator";
 
 
-export default function SignUpForm() {
+export default function SignUpForm({apiUrl}) {
     let [error, setError] = useState("");
     
     let [signUpForm, setSignUpForm] = useState(
@@ -25,7 +25,7 @@ export default function SignUpForm() {
 
             // Submit form
             setError("")
-            axios.post("http://localhost:3000/signup", {...signUpForm}, {withCredentials: true})
+            axios.post(`${apiUrl}/signup`, {...signUpForm}, {withCredentials: true})
             .then((res) => {
                 localStorage.setItem("token", JSON.stringify(res.data))
             })

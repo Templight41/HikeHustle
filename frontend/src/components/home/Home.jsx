@@ -30,17 +30,17 @@ export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userDat
                         <div className="briefData">
                             <span>{completedTodos.length > 0 ? completedTodos.length : 0} Tasks Completed</span>
                             |
-                            <span>Level {userData.level}</span>
+                            <span>Level {userData.level ? userData.level : 0}</span>
                         </div>
                     </div>
                     <div className="dataContainer">
                         <div className="myTasksContainer dataHome">
                             <div className="myTasksContainerTop">
                                 <div className='profile homeProfile'>
-                                    <a href="/profile">
+                                    <a href="#">
                                         <Avatar
                                             sx={{ bgcolor: teal[800] }}
-                                            alt="Remy Sharp"
+                                            alt="N"
                                             src="/broken-image.jpg"
                                             style={{
                                                 width: '44px',
