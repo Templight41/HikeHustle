@@ -82,7 +82,7 @@ function App() {
         setPetStatus((status) => {
             return "./standing.gif"
         })
-    }, 2500);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [petStatus]);
 

@@ -10,23 +10,24 @@ import { useState } from 'react';
 
 export default function TodoInput({buttonText, addTodo}) {
 
-    const [todoInput, setTodoInput] = useState("");
-    const [dateInput, setDateInput] = useState("");
+  const [todoInput, setTodoInput] = useState("");
+  const [dateInput, setDateInput] = useState("");
 
-    const inputChange = (e) => {
-        setTodoInput(e.target.value)
-    }
+  const inputChange = (e) => {
+      setTodoInput(e.target.value)
+  }
 
-    const dateChange = (e) => {
-        setDateInput(e.target.value)
-    }
+  const dateChange = (e) => {
+      setDateInput(e.target.value)
+  }
 
-    const submit = (e) => {
-        if(todoInput.length > 0) {
-            addTodo({task: todoInput})
-            setTodoInput("")
-        }
-    }
+  const submit = (e) => {
+      if(todoInput.length > 0) {
+          addTodo({task: todoInput})
+          setTodoInput("")
+      }
+  }
+    
 
   return (
     <PopupState variant="popover" popupId="demo-popup-popover">
@@ -50,7 +51,7 @@ export default function TodoInput({buttonText, addTodo}) {
                 <div className='inputBoxContainer'>
                     <label htmlFor="todo">Todo</label>
                     <div className="inputContainer todoInput">
-                        <input type="type" id="todo" onChange={inputChange} value={todoInput}/>
+                        <input type="type" id="todo" onKeyDown={(e) => e.key == "Enter" ? submit() : null} onChange={inputChange} value={todoInput}/>
                     </div>
                     {/* <label htmlFor="date">Due</label>
                     <div className="inputContainer">
