@@ -30,7 +30,7 @@ function App() {
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
 
-  const [petStatus, setPetStatus] = useState("/standing.gif")
+  const [petStatus, setPetStatus] = useState("./standing.gif")
 
   useEffect(() => {
     if(localStorage.getItem("token")) {
@@ -70,7 +70,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
         setPetStatus((status) => {
-            return "/standing.gif"
+            return "./standing.gif"
         })
     }, 2500);
     return () => clearTimeout(timer);
@@ -78,7 +78,7 @@ function App() {
 
   //Todo Complete
   const completeTodo = (todoId) => {
-    setPetStatus("/running.gif")
+    setPetStatus("./running.gif")
 
     setUpdateComplete((res) => !res)
 
