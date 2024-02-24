@@ -30,7 +30,7 @@ function App() {
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
 
-  const [petStatus, setPetStatus] = useState("/src/assets/standing.gif")
+  const [petStatus, setPetStatus] = useState("/standing.gif")
 
   let db;
 const request = indexedDB.open("MyTestDatabase");
