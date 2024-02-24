@@ -72,7 +72,8 @@ export default function Home({homePageButtonStatusOnClick, homePageStatus, toggl
                                 {(() => {
                                     if(homePageStatus == "completed") {
                                         if(completedTodos.length > 0) {
-                                            completedTodos.map((todo) => {if(todo.completed === true && completedTodos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>})
+                                            console.log("here")
+                                            return completedTodos.map((todo) => {if(completedTodos.indexOf(todo) <=2) return <li key={todo.id}>{todo.task}</li>})
                                         }
                                         return <li>No tasks completed yet</li>
                                     }

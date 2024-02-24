@@ -33,6 +33,8 @@ function App() {
 
   const [petStatus, setPetStatus] = useState("./standing.gif")
 
+  console.log(completedTodos)
+
 
   const homePageButtonStatusOnClick = (e) => {
     setHomePageStatus(e.target.value)
