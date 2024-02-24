@@ -40,7 +40,7 @@ export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userDat
                                     <a href="#">
                                         <Avatar
                                             sx={{ bgcolor: teal[800] }}
-                                            alt="N"
+                                            alt="U"
                                             src="/broken-image.jpg"
                                             style={{
                                                 width: '44px',

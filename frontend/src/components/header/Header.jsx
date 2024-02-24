@@ -23,7 +23,7 @@ export default function Header({toggleMenu, userData}) {
                 <Link to="#">
                     <Avatar
                         sx={{ bgcolor: teal[800] }}
-                        alt="No"
+                        alt="U"
                         src="/broken-image.jpg"
                         style={{
                             width: 'inherit',
