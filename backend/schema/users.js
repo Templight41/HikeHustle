@@ -5,7 +5,8 @@ const Users = new mongoose.Schema({
     email: { type: String, unique: true },
     password: { type: String },
     refreshToken: { type: String },
-    image: { type: String, default: "default.png"}
+    image: { type: String, default: "default.png"},
+    level: { type: String}
 })
 
 module.exports = mongoose.model("Users", Users)

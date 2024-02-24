@@ -4,15 +4,17 @@ import SideBar from "../sideBar/SideBar";
 import { teal } from '@mui/material/colors';
 import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
+import TodoInput from "../todoInput/TodoInput.jsx"
+import Game from "../game/Game.jsx";
 
-export default function Home({toggleMenu, isMenuOpen}) {
+export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus}) {
     const selectedButton = {
         color: "#aaa"
     }
     
     return (
         <>
-            <Header toggleMenu={toggleMenu}/>
+            <Header userData={userData} toggleMenu={toggleMenu}/>
             <div className="bodyContent">
                 {isMenuOpen && (
                     <SideBar />
@@ -28,7 +30,7 @@ export default function Home({toggleMenu, isMenuOpen}) {
                         <div className="briefData">
                             <span>0 Tasks Completed</span>
                             |
-                            <span>Level 14</span>
+                            <span>Level {userData.level}</span>
                         </div>
                     </div>
                     <div className="dataContainer">
@@ -45,7 +47,7 @@ export default function Home({toggleMenu, isMenuOpen}) {
                                                 height: '44px'
                                             }}
                                         >
-                                            B
+                                            {(() => {if(userData) return userData.username[0].toUpperCase()})()}
                                         </Avatar>
                                     </a>
                                 </div>
@@ -59,11 +61,12 @@ export default function Home({toggleMenu, isMenuOpen}) {
                             </div>
                             
                             <div className="tasksContainerBottom">
-                                <button><AddIcon/>Add task</button>
+                                {todos.length > 0 ? todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>}) : <TodoInput addTodo={addTodo} buttonText={"Add task"}/>}
+                                
                             </div>
                         </div>
                         <div className="gameContainer dataHome">
-                            
+                            <Game petStatus={petStatus}/>
                         </div>
                     </div>
                 </div>

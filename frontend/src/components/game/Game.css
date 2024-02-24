@@ -1,0 +1,9 @@
+.pet {
+    height: 40%;
+    transform: translate(100%, -192%) rotate(-24deg);
+}
+
+.mountain {
+    height: 100%;
+    width: 100%;
+}

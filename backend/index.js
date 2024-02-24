@@ -17,7 +17,10 @@ const Users = require("./schema/users")
 //routes
 const signup = require("./routes/signup")
 const login = require("./routes/login")
-const refresh = require("./routes/refresh")
+const refresh = require("./routes/refresh");
+const tasks = require("./routes/tasks");
+
+app.post("/tasks", tasks)
 
 app.post("/signup", signup)
 

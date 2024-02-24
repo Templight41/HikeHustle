@@ -21,6 +21,7 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: 3px;
+    color: rgba(85, 119, 153, 0.60);
 }
 
 .breifDataContainer {
@@ -116,7 +117,14 @@
     box-sizing: border-box;
     padding: 24px 32px;
     flex-direction: column;
+    gap: 12px;
+    font-family: sans-serif;
 }
+
+.tasksContainerBottom li {
+    background-color: transparent;
+}
+
 
 .tasksContainerBottom button {
     background-color: #303030;
@@ -126,7 +134,7 @@
     justify-content: start;
     align-items: center;
     gap: 6px;
-    width: 124px;
+    /* width: 124px; */
     border-radius: 8px;
     padding: 4px 16px;
     transition: 0.2s;

@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
         const token = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '15s' })
         const refreshToken = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_REFRESH_KEY)
         console.log("login")
-        res.status(200).json({token: token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email})
+        res.status(200).json({token: token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email, level: userDbData.level})
 
     } catch (error) {
         console.log(error, "error")

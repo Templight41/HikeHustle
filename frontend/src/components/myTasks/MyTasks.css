@@ -23,6 +23,11 @@
     width: 100%;
     box-sizing: border-box;
     background-color: #303030;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
 }
 
 .overdue-gameContainer {
@@ -46,6 +51,7 @@
 
 .tasksHeading {
     height: 52px;
+    font-family: sans-serif;
     padding: 14px 8px;
     box-sizing: border-box;
     display: flex;
@@ -57,14 +63,63 @@
     border-radius: 8px;
 }
 
-.tasksHeading button {
+.tasksHeading div button {
     background-color: transparent;
+    min-width: 0 !important;
+    padding: 0 !important;
     border: transparent;
     color: #888888;
     transition: 0.2s;
     cursor: pointer;
+    box-shadow: none !important;
 }
 
-.tasksHeading button:hover {
+.tasksHeading div button:hover {
+    background-color: transparent;
+    color: #aaa !important;
+}
+
+li {
+    background-color: #282828;
+    opacity: 0.8;
+    /* list-style: number; */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    padding: 12px 14px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+li button {
     color: #aaa;
+    background-color: transparent;
+    border: transparent;
+}
+
+.todo li button:hover {
+    color: #4bb543;
+}
+
+li div button {
+    color: #888888 !important;
+    background-color: transparent !important;
+    border: transparent !important;
+    box-shadow: none !important;
+}
+
+.todo li div button:hover {
+    color: #aaa !important;
+}
+
+.complete li button:hover {
+    color: rgb(167, 53, 53);
+}
+
+.gameElementContainer {
+    background-color: #aaa;
+    height: calc(100% - 52px);
+    border-radius: 8px;
+    /* overflow: hidden; */
 }
