@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import TodoInput from "../todoInput/TodoInput.jsx"
 import Game from "../game/Game.jsx";
 
-export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus, completedTodos}) {
+export default function Home({homePageButtonStatusOnClick, homePageStatus, toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus, completedTodos}) {
     const selectedButton = {
         color: "#aaa"
     }
@@ -55,14 +55,35 @@ export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userDat
                             </div>
                             
                             <div className="buttonList">
-                                <button style={selectedButton}>Upcoming</button>
-                                <button>Completed</button>
-                                <button>Overdue</button>
+                                <button value={"todos"} style={homePageStatus == "todos" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Upcoming</button>
+                                <button value={"completed"} style={homePageStatus == "completed" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Completed</button>
+                                <button value={"overDue"} style={homePageStatus == "overDue" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Overdue</button>
                             </div>
                             
                             <div className="tasksContainerBottom">
-                                {todos.length > 0 ? todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>}) : <TodoInput addTodo={addTodo} buttonText={"Add task"}/>}
+                                {(() => {
+                                    if(homePageStatus == "todos") {
+                                        if(todos.length > 0) {
+                                            todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)  <li key={todo.id}>{todo.task}</li>})
+                                        }
+                                        return <TodoInput addTodo={addTodo} buttonText={"Add task"}/>
+                                    }
+                                })()}
+                                {(() => {
+                                    if(homePageStatus == "completed") {
+                                        if(completedTodos.length > 0) {
+                                            completedTodos.map((todo) => {if(todo.completed === true && completedTodos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>})
+                                        }
+                                        return <li>No tasks completed yet</li>
+                                    }
+                                })()}
+                                {(() => {
+                                    if(homePageStatus == "overDue") {
+                                        return <li>No tasks overdue yet</li>
+                                    }
+                                })()}
                                 
+                                {/* {homePageStatus == "completed" ? {completedTodos.length > 0 ? completedTodos.map((todo) => {if(todo.completed === true && completedTodos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>}) : <li>No Tasks Completed</li>} : null} */}
                             </div>
                         </div>
                         <div className="gameContainer dataHome">

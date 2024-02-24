@@ -29,9 +29,17 @@ function App() {
   const [allTodos, setAllTodos] = useState([])
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
+  const [ homePageStatus, setHomePageStatus ] = useState("todos")
 
   const [petStatus, setPetStatus] = useState("./standing.gif")
 
+
+  const homePageButtonStatusOnClick = (e) => {
+    setHomePageStatus(e.target.value)
+    e.target.className = 
+    console.log("onclick")
+  }
+  console.log(homePageStatus)
   useEffect(() => {
     if(localStorage.getItem("token")) {
       setUserData(() => {
@@ -76,7 +84,7 @@ function App() {
     return () => clearTimeout(timer);
   }, [petStatus]);
 
-  //Todo Complete
+  // Todo Complete
   const completeTodo = (todoId) => {
     setPetStatus("./running.gif")
 
@@ -122,7 +130,7 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
+          <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
           <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
           <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
           <Route path='/login' element={<Login apiUrl={apiUrl}/>} />

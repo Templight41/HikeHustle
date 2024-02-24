@@ -112,6 +112,10 @@
     color: #aaa;
 }
 
+.buttonListSelected {
+    color: #aaa;
+}
+
 .tasksContainerBottom {
     display: flex;
     width: 100%;
