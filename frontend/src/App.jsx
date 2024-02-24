@@ -32,15 +32,6 @@ function App() {
 
   const [petStatus, setPetStatus] = useState("/standing.gif")
 
-  let db;
-const request = indexedDB.open("MyTestDatabase");
-request.onerror = (event) => {
-  console.error("Why didn't you allow my web app to use IndexedDB?!");
-};
-request.onsuccess = (event) => {
-  db = event.target.result;
-  console.log(db)
-};
   useEffect(() => {
     if(localStorage.getItem("token")) {
       setUserData(() => {
