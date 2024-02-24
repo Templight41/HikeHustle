@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import TodoInput from "../todoInput/TodoInput.jsx"
 import Game from "../game/Game.jsx";
 
-export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus}) {
+export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus, completedTodos}) {
     const selectedButton = {
         color: "#aaa"
     }
@@ -28,7 +28,7 @@ export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userDat
                     </div>
                     <div className="breifDataContainer">
                         <div className="briefData">
-                            <span>0 Tasks Completed</span>
+                            <span>{completedTodos.length > 0 ? completedTodos.length : 0} Tasks Completed</span>
                             |
                             <span>Level {userData.level}</span>
                         </div>
@@ -47,7 +47,7 @@ export default function Home({toggleMenu, isMenuOpen, allTodos, addTodo, userDat
                                                 height: '44px'
                                             }}
                                         >
-                                            {(() => {if(userData) return userData.username[0].toUpperCase()})()}
+                                            {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
                                         </Avatar>
                                     </a>
                                 </div>

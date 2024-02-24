@@ -21,19 +21,26 @@ import { v4 as uuidv4 } from "uuid"
 function App() {
   const [updateComplete, setUpdateComplete] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userData, setUserData] = useState(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
-    const email = token.email
-    const username = token.username
-    const level = 1
-
-    return {username: username, email: email, level}
-  })
+  const [userData, setUserData] = useState("")
   const [allTodos, setAllTodos] = useState([])
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
 
   const [petStatus, setPetStatus] = useState("/src/assets/standing.gif")
+
+  useEffect(() => {
+    if(localStorage.getItem("token")) {
+      setUserData(() => {
+        const token = JSON.parse(localStorage.getItem("token"));
+        const email = token.email
+        const username = token.username
+        const level = 1
+    
+        return {username: username, email: email, level}
+      })
+
+    }
+  }, [])
 
   useEffect(() => {
     const allTodosCopy = [...allTodos]

@@ -31,7 +31,7 @@ export default function Header({toggleMenu, userData}) {
                         fontSize: 14
                     }}
                 >
-                    {(() => {if(userData) return userData.username[0].toUpperCase()})()}
+                    {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
                 </Avatar>
                 </Link>
             </div>
