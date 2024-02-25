@@ -15,8 +15,10 @@ import { useEffect, useState } from 'react';
 import Refresh from './components/refresh/Refresh';
 import MyTasks from './components/myTasks/MyTasks';
 import { v4 as uuidv4 } from "uuid"
-import { IndexedDB, AccessDB } from "react-indexed-db-hook";
+import { DBConfig } from './components/dbConfig/DBConfig';
+import { initDB, useIndexedDB } from "react-indexed-db-hook";
 
+initDB(DBConfig)
 
 const apiUrl = "http://localhost:8080"
 
@@ -30,18 +32,35 @@ function App() {
   const [todos, setTodos] = useState([])
   const [completedTodos, setCompletedTodos] = useState([])
   const [ homePageStatus, setHomePageStatus ] = useState("todos")
-
   const [petStatus, setPetStatus] = useState("./standing.gif")
-
-  console.log(completedTodos)
 
 
   const homePageButtonStatusOnClick = (e) => {
     setHomePageStatus(e.target.value)
-    e.target.className = 
-    console.log("onclick")
   }
-  console.log(homePageStatus)
+
+  const { getAll } = useIndexedDB("allTodos");
+  const { add } = useIndexedDB("allTodos");
+  // const [person, setPerson] = useState();
+
+  // useEffect(() => {
+  //   getAll().then((todo) => {
+  //     setAllTodos((prevTodo) => [...prevTodo, ...todo]);
+  //     // console.log(todo)
+  //   });
+
+  //   // add({ id: "3", task: "tasks", completed: "false", completeBy: "tomorrow" }).then(
+  //   //   (event) => {
+  //   //     console.log("ID Generated: ", event.target.result);
+  //   //   },
+  //   //   (error) => {
+  //   //     console.log(error);
+  //   //   },
+  //   // );
+
+  // }, []);
+
+  
   useEffect(() => {
     if(localStorage.getItem("token")) {
       setUserData(() => {
@@ -55,8 +74,6 @@ function App() {
 
     }
   }, [])
-
-  console.log(userData)
 
   useEffect(() => {
     const allTodosCopy = [...allTodos]
@@ -115,32 +132,16 @@ function App() {
   } 
 
   return (
-    <IndexedDB
-      name="HikeHustle"
-      version={1}
-      objectStoresMeta={[
-        {
-          store: "aLLTodos",
-          storeSchema: [
-            { name: "id", keypath: "id", options: { unique: true }},
-            { name: "task", keypath: "email", options: { unique: false }},
-            { name: "completed", keypath: "completed", options: { unique: false}},
-            { name: "completeBy", keypath: "completeBy", options: { unique: false }}
-          ]
-        }
-      ]}
-    >
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
-          <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
-          <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
-          <Route path='/login' element={<Login apiUrl={apiUrl}/>} />
-          <Route path='/logout' element={<Logout />} />
-          <Route path='/refresh' element={<Refresh apiUrl={apiUrl}/>} />
-        </Routes>
-      </BrowserRouter>
-    </IndexedDB>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
+        <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
+        <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
+        <Route path='/login' element={<Login apiUrl={apiUrl}/>} />
+        <Route path='/logout' element={<Logout />} />
+        <Route path='/refresh' element={<Refresh apiUrl={apiUrl}/>} />
+      </Routes>
+    </BrowserRouter>
     
   )
 }
