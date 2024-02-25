@@ -6,11 +6,27 @@ import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import TodoInput from "../todoInput/TodoInput.jsx"
 import Game from "../game/Game.jsx";
+import { useState } from "react";
 
 export default function Home({homePageButtonStatusOnClick, homePageStatus, toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus, completedTodos}) {
     const selectedButton = {
         color: "#aaa"
     }
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const weeks = ["Sunday", "Monday", "Tuesday", "Thursday", "Friday", "Saturday"]
+
+    const d = new Date();
+    let month = months[d.getMonth()];
+    let date = d.getDate()
+    let week = weeks[d.getDay()]
+
+    const [todayDate, setTodayDate] = useState(`${week}, ${month} ${date}`)
+    
+
+    console.log(`${week}, ${month} ${date}`)
+
+
     
     return (
         <>
@@ -22,7 +38,7 @@ export default function Home({homePageButtonStatusOnClick, homePageStatus, toggl
                 <div className="homeApp">
                     <div className="greetingContainer">
                         <span className="greeting">
-                            <p>Monday, February 22</p>
+                            <p>{todayDate}</p>
                             <h2>Good Evening, User</h2>
                         </span>
                     </div>
