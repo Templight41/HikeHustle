@@ -6,9 +6,11 @@ import Avatar from '@mui/material/Avatar';
 import AddIcon from '@mui/icons-material/Add';
 import TodoInput from "../todoInput/TodoInput.jsx"
 import Game from "../game/Game.jsx";
+import DoneIcon from '@mui/icons-material/Done';
+import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 
-export default function Home({homePageButtonStatusOnClick, homePageStatus, toggleMenu, isMenuOpen, allTodos, addTodo, userData, todos, petStatus, completedTodos}) {
+export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageStatus, toggleMenu, isMenuOpen, allTodos, completeTodo, addTodo, userData, todos, petStatus, completedTodos}) {
     const selectedButton = {
         color: "#aaa"
     }
@@ -79,17 +81,18 @@ export default function Home({homePageButtonStatusOnClick, homePageStatus, toggl
                             <div className="tasksContainerBottom">
                                 {(() => {
                                     if(homePageStatus == "todos") {
-                                        if(todos.length > 0) {
-                                            return todos.map((todo) => {if(todo.completed !== true && todos.indexOf(todo) <=2)  return <li key={todo.id}>{todo.task}</li>})
-                                        }
+                                        if(todos.length > 0) return todos.map((todo) => {
+                                            return <li key={todo.id}>{todo.task}<button onClick={() => completeTodo(todo.id)}><DoneIcon/></button></li>
+                                        })
                                         return <TodoInput addTodo={addTodo} buttonText={"Add task"}/>
                                     }
                                 })()}
                                 {(() => {
                                     if(homePageStatus == "completed") {
                                         if(completedTodos.length > 0) {
-                                            console.log("here")
-                                            return completedTodos.map((todo) => {if(completedTodos.indexOf(todo) <=2) return <li key={todo.id}>{todo.task}</li>})
+                                            return completedTodos.map((todo) => {
+                                                return <li key={todo.id}>{todo.task}<button onClick={() => deleteTodo(todo.id)}><CloseIcon/></button></li>
+                                            })
                                         }
                                         return <li>No tasks completed yet</li>
                                     }

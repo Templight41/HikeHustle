@@ -39,28 +39,19 @@ function App() {
     setHomePageStatus(e.target.value)
   }
 
-  const { getAll } = useIndexedDB("allTodos");
-  const { add } = useIndexedDB("allTodos");
-  // const [person, setPerson] = useState();
+  const { getAll, add, deleteRecord, update } = useIndexedDB("allTodos");
+  const db = useIndexedDB("allTodos")
 
-  // useEffect(() => {
-  //   getAll().then((todo) => {
-  //     setAllTodos((prevTodo) => [...prevTodo, ...todo]);
-  //     // console.log(todo)
-  //   });
+  //getting data from local DB
+  useEffect(() => {
+    getAll().then((todos) => {
+      setAllTodos([...todos])
+    });
 
-  //   // add({ id: "3", task: "tasks", completed: "false", completeBy: "tomorrow" }).then(
-  //   //   (event) => {
-  //   //     console.log("ID Generated: ", event.target.result);
-  //   //   },
-  //   //   (error) => {
-  //   //     console.log(error);
-  //   //   },
-  //   // );
-
-  // }, []);
-
+  }, []);
   
+  
+  //getting userData from local  db
   useEffect(() => {
     if(localStorage.getItem("token")) {
       setUserData(() => {
@@ -75,25 +66,32 @@ function App() {
     }
   }, [])
 
+  // setting todos and completed todos
   useEffect(() => {
     const allTodosCopy = [...allTodos]
-    setTodos(() => allTodosCopy.filter((todo) => todo.completed !== true))
-    setCompletedTodos(() => allTodosCopy.filter((todo) => todo.completed === true))
+    setTodos(() => allTodosCopy.filter((todo) => todo.completed == "false"))
+    setCompletedTodos(() => allTodosCopy.filter((todo) => todo.completed == "true"))
   }, [allTodos])
 
-
+  
+  // Add todo
   const addTodo = (todoInfo) => {
+    const newTodo = {id: uuidv4(), task: todoInfo.task, completed: "false", completeBy: "todoInfo.completeBy"}
     setAllTodos((todo) => {
-      return [...todo, {id: uuidv4(), task: todoInfo.task, completed: false, completeBy: "todoInfo.completeBy"}]
+      return [...todo, {...newTodo}]
     })
+    add({ ...newTodo }).then((res) => console.log(res))
 
   }
 
+  // deleting todo
   const deleteTodo = (todoId) => {
     setAllTodos(allTodos.filter((todo) => todo.id != todoId ))
+    deleteRecord(todoId).then((res) => console.log(res))
   }
 
 
+  // running pet feature
   useEffect(() => {
     const timer = setTimeout(() => {
         setPetStatus((status) => {
@@ -102,6 +100,7 @@ function App() {
     }, 3000);
     return () => clearTimeout(timer);
   }, [petStatus]);
+
 
   // Todo Complete
   const completeTodo = (todoId) => {
@@ -112,20 +111,23 @@ function App() {
     setAllTodos((prevTodo) => 
       allTodos.map((todo) => {
         if(todo.id == todoId) {
+          update({...todo, completed: "true"})
           return {
             ...todo,
-            completed: true,
+            completed: "true",
           };
         } else {
           return todo;
         }
     }))
-    setCompletedTodos((prevTodo) => prevTodo.filter((todo) => todo.completed === true))
+    // setCompletedTodos((prevTodo) => prevTodo.filter((todo) => todo.completed == "true"))
+
 
     setUserData((data) => {
       return {...data, level: data.level + 1}
     })
-    }
+  }
+  console.log(completedTodos)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -134,8 +136,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo}/>}/>
-        <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>} />
+        <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>}/>
+        <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo} />} />
         <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
         <Route path='/login' element={<Login apiUrl={apiUrl}/>} />
         <Route path='/logout' element={<Logout />} />

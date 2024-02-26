@@ -7,7 +7,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import Game from "../game/Game.jsx";
 
-export default function MyTasks({toggleMenu, isMenuOpen, allTodos, addTodo, deleteTodo, completeTodo, userData, todos, petStatus}) {
+export default function MyTasks({toggleMenu, isMenuOpen, allTodos, addTodo, deleteTodo, completeTodo, userData, todos, petStatus, completedTodos}) {
 
     // console.log(allTodos)
 
@@ -22,16 +22,16 @@ export default function MyTasks({toggleMenu, isMenuOpen, allTodos, addTodo, dele
                     <div className="tasksBoxContainer todoContainer">
                         <h2 className="tasksHeading">My Tasks &nbsp; {todos.length} <TodoInput addTodo={addTodo}/></h2>
                         <div className="tasksContainer todo">
-                            {todos.length > 0 ? allTodos.map((todo) => {
-                                if(todo.completed !== true) return <li key={todo.id}>{todo.task}<button onClick={() => completeTodo(todo.id)}><DoneIcon/></button></li>
+                            {todos.length > 0 ? todos.map((todo) => {
+                                return <li key={todo.id}>{todo.task}<button onClick={() => completeTodo(todo.id)}><DoneIcon/></button></li>
                             }) : <li>No tasks<TodoInput addTodo={addTodo}/></li>}
                         </div>
                     </div>
                     <div className="tasksBoxContainer completeContainer">
                         <h2 className="tasksHeading">Completed</h2>
                         <div className="tasksContainer complete">
-                            {allTodos.map((todo) => {
-                                if(todo.completed === true) return <li key={todo.id}>{todo.task}<button onClick={() => deleteTodo(todo.id)}><CloseIcon/></button></li>
+                            {completedTodos.map((todo) => {
+                                return <li key={todo.id}>{todo.task}<button onClick={() => deleteTodo(todo.id)}><CloseIcon/></button></li>
                             })}
                         </div>
 
