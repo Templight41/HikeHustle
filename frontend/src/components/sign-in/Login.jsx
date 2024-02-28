@@ -1,7 +1,7 @@
 import "./Login.css"
 import LoginForm from "./LoginForm"
 
-export default function Login({apiUrl}) {
+export default function Login({apiUrl, setAuthToken, authToken}) {
     return(
         <div className="loginContainer">
 
@@ -10,7 +10,7 @@ export default function Login({apiUrl}) {
 
             <div className="formContainer">
                 <h2>Login</h2>
-                <LoginForm apiUrl={apiUrl}/>
+                <LoginForm authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>
             </div>
 
         </div>

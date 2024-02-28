@@ -22,7 +22,7 @@
     height: calc(100% - 52px);
     width: 100%;
     box-sizing: border-box;
-    background-color: #303030;
+    background: linear-gradient(#303030, transparent);
     padding: 24px 18px;
     display: flex;
     flex-direction: column;

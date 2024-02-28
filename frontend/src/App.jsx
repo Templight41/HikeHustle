@@ -8,6 +8,7 @@ import {
   useNavigate,
   useLocation
 } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import { useJwt } from "react-jwt";
 import Logout from './components/logout/Logout';
 import Home from './components/home/Home';
@@ -17,30 +18,32 @@ import MyTasks from './components/myTasks/MyTasks';
 import { v4 as uuidv4 } from "uuid"
 import { DBConfig } from './components/dbConfig/DBConfig';
 import { initDB, useIndexedDB } from "react-indexed-db-hook";
+import axios from 'axios'
 
 initDB(DBConfig)
 
 const apiUrl = "http://localhost:8080"
 
 
-
 function App() {
-  const [updateComplete, setUpdateComplete] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userData, setUserData] = useState({level: 1})
-  const [allTodos, setAllTodos] = useState([])
-  const [todos, setTodos] = useState([])
-  const [completedTodos, setCompletedTodos] = useState([])
+  let token = JSON.parse(localStorage.getItem("token"));
+  let localUserData = JSON.parse(localStorage.getItem("userData"))
+  const [ authToken, setAuthToken ] = useState(() => token ? token.accessToken : null)
+  const [ updateComplete, setUpdateComplete ] = useState(false)
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
+  const [ userData, setUserData ] = useState(() => localUserData ? localUserData : null)
+  const [ allTodos, setAllTodos ] = useState([])
+  const [ todos, setTodos ] = useState([])
+  const [completedTodos, setCompletedTodos ] = useState([])
   const [ homePageStatus, setHomePageStatus ] = useState("todos")
-  const [petStatus, setPetStatus] = useState("./standing.gif")
+  const { getAll, add, deleteRecord, update } = useIndexedDB("allTodos");
+  const [ petStatus, setPetStatus ] = useState("./standing.gif")
 
 
   const homePageButtonStatusOnClick = (e) => {
     setHomePageStatus(e.target.value)
   }
 
-  const { getAll, add, deleteRecord, update } = useIndexedDB("allTodos");
-  const db = useIndexedDB("allTodos")
 
   //getting data from local DB
   useEffect(() => {
@@ -49,22 +52,42 @@ function App() {
     });
 
   }, []);
-  
-  
-  //getting userData from local  db
-  useEffect(() => {
-    if(localStorage.getItem("token")) {
-      setUserData(() => {
-        const token = JSON.parse(localStorage.getItem("token"));
-        const email = token.email
-        const username = token.username
-        const level = 1
-    
-        return {username: username, email: email, level: level}
-      })
 
+
+  
+ const ignoreUrlList = [ '/login', '/signup', '/refresh', '/logout' ]
+
+  // getting tasks
+  useEffect(() => {
+    if(authToken) {
+
+      axios.post(apiUrl+'/tasks/all', { accessToken: authToken })
+      .then((res) => {
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err.response.status)
+        if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      })
     }
   }, [])
+
+  
+  
+  // getting userData from local db
+  // useEffect(() => {
+  //   if(localStorage.getItem("userData")) {
+  //     const userData = JSON.parse(localStorage.getItem("userData"));
+  //     const email = userData.email
+  //     const username = userData.username
+  //     const level = userData.level
+
+  //     setUserData(() => {
+  //       return {username: username, email: email, level: level}
+  //     })
+  //   }
+  // }, [])
+
 
   // setting todos and completed todos
   useEffect(() => {
@@ -80,7 +103,22 @@ function App() {
     setAllTodos((todo) => {
       return [...todo, {...newTodo}]
     })
+    console.log(newTodo)
+
     add({ ...newTodo }).then((res) => console.log(res))
+
+
+    axios.post(apiUrl+'/tasks/add', { accessToken: authToken, ...newTodo })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .then(() => {
+    })
+    .catch((err) => {
+      console.log(err.response.status)
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 500) console.log(err.response.data.msg)
+    })
 
   }
 
@@ -88,6 +126,18 @@ function App() {
   const deleteTodo = (todoId) => {
     setAllTodos(allTodos.filter((todo) => todo.id != todoId ))
     deleteRecord(todoId).then((res) => console.log(res))
+
+    axios.post(apiUrl+'/tasks/delete', { accessToken: authToken, id: todoId })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .then(() => {
+    })
+    .catch((err) => {
+      console.log(err.response.status)
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 500) console.log(err.response.data.msg)
+    })
   }
 
 
@@ -105,29 +155,31 @@ function App() {
   // Todo Complete
   const completeTodo = (todoId) => {
     setPetStatus("./running.gif")
+    update({...updatedTodo, completed: "true"})
 
-    setUpdateComplete((res) => !res)
-
-    setAllTodos((prevTodo) => 
-      allTodos.map((todo) => {
-        if(todo.id == todoId) {
-          update({...todo, completed: "true"})
-          return {
-            ...todo,
-            completed: "true",
-          };
-        } else {
-          return todo;
-        }
-    }))
-    // setCompletedTodos((prevTodo) => prevTodo.filter((todo) => todo.completed == "true"))
-
-
-    setUserData((data) => {
-      return {...data, level: data.level + 1}
+    const updatedTodo = allTodos.map((todo) => {
+      if(todo.id == todoId) {
+        return {
+          ...todo,
+          completed: "true",
+        };
+      } else {
+        return todo;
+      }
     })
+
+    axios.post(apiUrl+'/tasks/update', { accessToken: authToken, id: updatedTodo.id, completed: "true" })
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((err) => {
+      console.log(err.response.status)
+      if(err.code == 11000) console.log("duplicate") 
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 500) console.log(err.response.data.msg)
+    })
+
   }
-  console.log(completedTodos)
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -138,8 +190,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home homePageButtonStatusOnClick={homePageButtonStatusOnClick} homePageStatus={homePageStatus} petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo}/>}/>
         <Route path="/tasks" element={<MyTasks petStatus={petStatus} completedTodos={completedTodos} todos={todos} userData={userData} toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} allTodos={allTodos} addTodo={addTodo} deleteTodo={deleteTodo} completeTodo={completeTodo} />} />
-        <Route path='/signup' element={<SignUp apiUrl={apiUrl}/>} />
-        <Route path='/login' element={<Login apiUrl={apiUrl}/>} />
+        <Route path='/signup' element={<SignUp authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>} />
+        <Route path='/login' element={<Login authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/refresh' element={<Refresh apiUrl={apiUrl}/>} />
       </Routes>

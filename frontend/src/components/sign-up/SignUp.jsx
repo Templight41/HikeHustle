@@ -1,7 +1,7 @@
 import "./SignUp.css"
 import SignUpForm from "./SignUpForm"
 
-export default function SignUp({apiUrl}) {
+export default function SignUp({apiUrl, authToken, setAuthToken}) {
     return(
         <div className="signUpContainer">
 
@@ -9,7 +9,7 @@ export default function SignUp({apiUrl}) {
 
             <div className="formContainer">
                 <h2>Sign Up</h2>
-                <SignUpForm apiUrl={apiUrl}/>
+                <SignUpForm authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>
             </div>
 
         </div>

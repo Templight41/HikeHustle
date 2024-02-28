@@ -10,6 +10,6 @@ export const DBConfig = {
         { name: "completed", keypath: "completed", options: { unique: false } },
         { name: "completeBy", keypath: "completeBy", options: { unique: false } },
       ],
-    },
+    }
   ],
 };

@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken")
 const mongoose = require('mongoose');
 require('dotenv').config()
 
-app.use(cors())
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors())
 
 const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@hikehustle.vxk6cxv.mongodb.net`;
 
@@ -18,15 +18,25 @@ const Users = require("./schema/users")
 const signup = require("./routes/signup")
 const login = require("./routes/login")
 const refresh = require("./routes/refresh");
-const tasks = require("./routes/tasks");
+const addTasks = require("./routes/addTasks");
+const deleteTasks = require("./routes/deleteTasks");
+const updateTasks = require("./routes/updateTasks");
+const middleware = require("./routes/middleware")
+const allTasks = require("./routes/allTasks")
 
-app.post("/tasks", tasks)
+app.post("/tasks/all", middleware, allTasks)
 
-app.post("/signup", signup)
+app.post("/tasks/add", middleware, addTasks)
 
-app.post("/login", login)
+app.post("/tasks/delete", middleware, deleteTasks)
 
-app.post("/refresh", refresh)
+app.post("/tasks/update", middleware, updateTasks)
+
+app.post("/signup",  signup);
+
+app.post("/login", login);
+
+app.post("/refresh", refresh);
 
 
 app.listen(8080, () => {

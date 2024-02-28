@@ -25,11 +25,6 @@ export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageS
 
     const [todayDate, setTodayDate] = useState(`${week}, ${month} ${date}`)
     
-
-    console.log(`${week}, ${month} ${date}`)
-
-
-    
     return (
         <>
             <Header userData={userData} toggleMenu={toggleMenu}/>
