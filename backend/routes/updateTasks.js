@@ -12,10 +12,10 @@ module.exports = async (req, res, next) => {
     
     await mongoose.connect(uri);
 
-    await Users.findOneAndUpdate({ email: body.email }, { $set : { "todo.$[el].completed": body.completed, }, $inc : { level : 1 } }, { arrayFilters: [{"el.taskId": body.id}] })
+    await Users.findOneAndUpdate({ email: body.email }, { $set : { "todo.$[el].completed": body.completed, }, $inc : { level : 1 } }, { arrayFilters: [{"el.taskId": body.taskId}] })
     .then((result) => {
         console.log(result)
-        res.status(200).json({msg: "updated"})
+        res.status(200).json({msg: "updated", allTasks: result.todo})
     })
     .catch((err) => {
         res.status(500).json({msg: err})

@@ -34,7 +34,7 @@ function App() {
   const [ userData, setUserData ] = useState(() => localUserData ? localUserData : null)
   const [ allTodos, setAllTodos ] = useState([])
   const [ todos, setTodos ] = useState([])
-  const [completedTodos, setCompletedTodos ] = useState([])
+  const [ completedTodos, setCompletedTodos ] = useState([])
   const [ homePageStatus, setHomePageStatus ] = useState("todos")
   const { getAll, add, deleteRecord, update } = useIndexedDB("allTodos");
   const [ petStatus, setPetStatus ] = useState("./standing.gif")
@@ -46,12 +46,12 @@ function App() {
 
 
   //getting data from local DB
-  useEffect(() => {
-    getAll().then((todos) => {
-      setAllTodos([...todos])
-    });
+  // useEffect(() => {
+  //   getAll().then((todos) => {
+  //     setAllTodos([...todos])
+  //   });
 
-  }, []);
+  // }, []);
 
 
   
@@ -63,6 +63,10 @@ function App() {
 
       axios.post(apiUrl+'/tasks/all', { accessToken: authToken })
       .then((res) => {
+        setAllTodos(res.data.todo)
+        setUserData((user) => {
+          return { ...user, level: res.data.level }
+        })
         console.log(res.data)
       })
       .catch((err) => {
@@ -99,13 +103,13 @@ function App() {
   
   // Add todo
   const addTodo = (todoInfo) => {
-    const newTodo = {id: uuidv4(), task: todoInfo.task, completed: "false", completeBy: "todoInfo.completeBy"}
+    const newTodo = {taskId: uuidv4(), task: todoInfo.task, completed: "false", completeBy: "todoInfo.completeBy"}
     setAllTodos((todo) => {
       return [...todo, {...newTodo}]
     })
     console.log(newTodo)
 
-    add({ ...newTodo }).then((res) => console.log(res))
+    // add({ ...newTodo }).then((res) => console.log(res))
 
 
     axios.post(apiUrl+'/tasks/add', { accessToken: authToken, ...newTodo })
@@ -124,10 +128,11 @@ function App() {
 
   // deleting todo
   const deleteTodo = (todoId) => {
-    setAllTodos(allTodos.filter((todo) => todo.id != todoId ))
-    deleteRecord(todoId).then((res) => console.log(res))
+    setAllTodos(allTodos.filter((todo) => todo.taskId != todoId ))
+    // deleteRecord(todoId).then((res) => console.log(res))
+    console.log(todoId)
 
-    axios.post(apiUrl+'/tasks/delete', { accessToken: authToken, id: todoId })
+    axios.post(apiUrl+'/tasks/delete', { accessToken: authToken, taskId: todoId })
     .then((res) => {
       console.log(res.data)
     })
@@ -155,22 +160,40 @@ function App() {
   // Todo Complete
   const completeTodo = (todoId) => {
     setPetStatus("./running.gif")
-    update({...updatedTodo, completed: "true"})
+    
+    console.log(allTodos)
 
-    const updatedTodo = allTodos.map((todo) => {
-      if(todo.id == todoId) {
-        return {
+    let updatedTodo;
+
+    const updatedAllTodos = allTodos.map((todo) => {
+      if(todo.taskId == todoId) {
+        updatedTodo = {
           ...todo,
           completed: "true",
         };
+        return updatedTodo;
       } else {
-        return todo;
+        return todo
       }
     })
+    console.log(updatedTodo)
+    
+    setAllTodos(updatedAllTodos)
+    setUserData((user) => {
+      console.log(user)
+      return { ...user, level: parseInt(user.level) + 1 }
+    })
+    // update({...updatedTodo, completed: "true"})
 
-    axios.post(apiUrl+'/tasks/update', { accessToken: authToken, id: updatedTodo.id, completed: "true" })
+    
+
+    axios.post(apiUrl+'/tasks/update', { accessToken: authToken, taskId: updatedTodo.taskId, completed: "true" })
     .then((res) => {
       console.log(res.data)
+      // setAllTodos(res.data.allTasks)
+    })
+    .then((res) => {
+      console.log(allTodos)
     })
     .catch((err) => {
       console.log(err.response.status)

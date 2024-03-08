@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
     
     await mongoose.connect(uri);
 
-    await Users.findOneAndUpdate({ email: body.email }, { $pull : { todo: { taskId : body.id } } })
+    await Users.findOneAndUpdate({ email: body.email }, { $pull : { todo: { taskId : body.taskId } } })
     .then((result) => {
         console.log(result)
         res.status(200).json({msg: "deleted"})

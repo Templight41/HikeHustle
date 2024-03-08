@@ -10,7 +10,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 
-export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageStatus, toggleMenu, isMenuOpen, allTodos, completeTodo, addTodo, userData, todos, petStatus, completedTodos}) {
+export default function Home(props) {
     const selectedButton = {
         color: "#aaa"
     }
@@ -27,23 +27,23 @@ export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageS
     
     return (
         <>
-            <Header userData={userData} toggleMenu={toggleMenu}/>
+            <Header userData={props.userData} toggleMenu={props.toggleMenu}/>
             <div className="bodyContent">
-                {isMenuOpen && (
+                {props.isMenuOpen && (
                     <SideBar />
                 )}
                 <div className="homeApp">
                     <div className="greetingContainer">
                         <span className="greeting">
                             <p>{todayDate}</p>
-                            <h2>Good Evening, User</h2>
+                            <h2>Good Evening, {props.userData.username}</h2>
                         </span>
                     </div>
                     <div className="breifDataContainer">
                         <div className="briefData">
-                            <span>{completedTodos.length > 0 ? completedTodos.length : 0} Tasks Completed</span>
+                            <span>{props.completedTodos.length > 0 ? props.completedTodos.length : 0} Tasks Completed</span>
                             |
-                            <span>Level {userData.level ? userData.level : 0}</span>
+                            <span>Level {props.userData.level ? props.userData.level : 0}</span>
                         </div>
                     </div>
                     <div className="dataContainer">
@@ -53,14 +53,14 @@ export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageS
                                     <a href="#">
                                         <Avatar
                                             sx={{ bgcolor: teal[800] }}
-                                            alt="U"
+                                            alt={props.userData.username.toUpperCase()}
                                             src="/broken-image.jpg"
                                             style={{
                                                 width: '44px',
                                                 height: '44px'
                                             }}
                                         >
-                                            {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
+                                            {(() => {if(props.userData.length > 0) return props.userData.username[0].toUpperCase()})()}
                                         </Avatar>
                                     </a>
                                 </div>
@@ -68,41 +68,41 @@ export default function Home({homePageButtonStatusOnClick, deleteTodo, homePageS
                             </div>
                             
                             <div className="buttonList">
-                                <button value={"todos"} style={homePageStatus == "todos" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Upcoming</button>
-                                <button value={"completed"} style={homePageStatus == "completed" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Completed</button>
-                                <button value={"overDue"} style={homePageStatus == "overDue" ? {...selectedButton} : null} onClick={homePageButtonStatusOnClick}>Overdue</button>
+                                <button value={"todos"} style={props.homePageStatus == "todos" ? {...selectedButton} : null} onClick={props.homePageButtonStatusOnClick}>Upcoming</button>
+                                <button value={"completed"} style={props.homePageStatus == "completed" ? {...selectedButton} : null} onClick={props.homePageButtonStatusOnClick}>Completed</button>
+                                <button value={"overDue"} style={props.homePageStatus == "overDue" ? {...selectedButton} : null} onClick={props.homePageButtonStatusOnClick}>Overdue</button>
                             </div>
                             
                             <div className="tasksContainerBottom">
                                 {(() => {
-                                    if(homePageStatus == "todos") {
-                                        if(todos.length > 0) return todos.map((todo) => {
-                                            return <li key={todo.id}>{todo.task}<button onClick={() => completeTodo(todo.id)}><DoneIcon/></button></li>
+                                    if(props.homePageStatus == "todos") {
+                                        if(props.todos.length > 0) return props.todos.map((todo) => {
+                                            return <li key={todo.taskId}>{todo.task}<button onClick={() => props.completeTodo(todo.taskId)}><DoneIcon/></button></li>
                                         })
-                                        return <TodoInput addTodo={addTodo} buttonText={"Add task"}/>
+                                        return <TodoInput addTodo={props.addTodo} buttonText={"Add task"}/>
                                     }
                                 })()}
                                 {(() => {
-                                    if(homePageStatus == "completed") {
-                                        if(completedTodos.length > 0) {
-                                            return completedTodos.map((todo) => {
-                                                return <li key={todo.id}>{todo.task}<button onClick={() => deleteTodo(todo.id)}><CloseIcon/></button></li>
+                                    if(props.homePageStatus == "completed") {
+                                        if(props.completedTodos.length > 0) {
+                                            return props.completedTodos.map((todo) => {
+                                                return <li key={todo.taskId}>{todo.task}<button onClick={() => props.deleteTodo(todo.taskId)}><CloseIcon/></button></li>
                                             })
                                         }
                                         return <li>No tasks completed yet</li>
                                     }
                                 })()}
                                 {(() => {
-                                    if(homePageStatus == "overDue") {
+                                    if(props.homePageStatus == "overDue") {
                                         return <li>No tasks overdue yet</li>
                                     }
                                 })()}
                                 
-                                {/* {homePageStatus == "completed" ? {completedTodos.length > 0 ? completedTodos.map((todo) => {if(todo.completed === true && completedTodos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>}) : <li>No Tasks Completed</li>} : null} */}
+                                {/* {props.homePageStatus == "completed" ? {props.completedTodos.length > 0 ? props.completedTodos.map((todo) => {if(todo.completed === true && props.completedTodos.indexOf(todo) <=2)return <li key={todo.id}>{todo.task}</li>}) : <li>No Tasks Completed</li>} : null} */}
                             </div>
                         </div>
                         <div className="gameContainer dataHome">
-                            <Game petStatus={petStatus}/>
+                            <Game petStatus={props.petStatus}/>
                         </div>
                     </div>
                 </div>
