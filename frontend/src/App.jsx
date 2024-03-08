@@ -22,7 +22,7 @@ import axios from 'axios'
 
 initDB(DBConfig)
 
-const apiUrl = "https://hikehustle.api.arsanya.in/"
+const apiUrl = "https://hikehustle.api.arsanya.in"
 
 
 function App() {
