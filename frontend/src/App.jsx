@@ -22,7 +22,7 @@ import axios from 'axios'
 
 initDB(DBConfig)
 
-const apiUrl = "https://hikehustle.api.arsanya.in"
+const apiUrl = "https://hikehustle.api.arsanya.in/"
 
 
 function App() {
@@ -59,7 +59,6 @@ function App() {
 
   // getting tasks
   useEffect(() => {
-    console.log(authToken)
     if(authToken) {
 
       axios.post(apiUrl+'/tasks/all', { accessToken: authToken })
@@ -68,10 +67,9 @@ function App() {
         setUserData((user) => {
           return { ...user, level: res.data.level }
         })
-        console.log(res.data)
       })
       .catch((err) => {
-        console.log(err.response.status)
+        // console.log(err.response.status)
         if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
       })
     } else if(!authToken && !ignoreUrlList.includes(window.location.pathname)) {
@@ -110,19 +108,19 @@ function App() {
     setAllTodos((todo) => {
       return [...todo, {...newTodo}]
     })
-    console.log(newTodo)
+    // console.log(newTodo)
 
     // add({ ...newTodo }).then((res) => console.log(res))
 
 
     axios.post(apiUrl+'/tasks/add', { accessToken: authToken, ...newTodo })
     .then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
     })
     .then(() => {
     })
     .catch((err) => {
-      console.log(err.response.status)
+      // console.log(err.response.status)
       if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
       if(err.response.status == 500) console.log(err.response.data.msg)
     })
@@ -133,11 +131,11 @@ function App() {
   const deleteTodo = (todoId) => {
     setAllTodos(allTodos.filter((todo) => todo.taskId != todoId ))
     // deleteRecord(todoId).then((res) => console.log(res))
-    console.log(todoId)
+    // console.log(todoId)
 
     axios.post(apiUrl+'/tasks/delete', { accessToken: authToken, taskId: todoId })
     .then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
     })
     .then(() => {
     })
@@ -164,7 +162,7 @@ function App() {
   const completeTodo = (todoId) => {
     setPetStatus("./running.gif")
     
-    console.log(allTodos)
+    // console.log(allTodos)
 
     let updatedTodo;
 
@@ -179,11 +177,11 @@ function App() {
         return todo
       }
     })
-    console.log(updatedTodo)
+    // console.log(updatedTodo)
     
     setAllTodos(updatedAllTodos)
     setUserData((user) => {
-      console.log(user)
+      // console.log(user)
       return { ...user, level: parseInt(user.level) + 1 }
     })
     // update({...updatedTodo, completed: "true"})
@@ -192,11 +190,11 @@ function App() {
 
     axios.post(apiUrl+'/tasks/update', { accessToken: authToken, taskId: updatedTodo.taskId, completed: "true" })
     .then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       // setAllTodos(res.data.allTasks)
     })
     .then((res) => {
-      console.log(allTodos)
+      // console.log(allTodos)
     })
     .catch((err) => {
       console.log(err.response.status)
