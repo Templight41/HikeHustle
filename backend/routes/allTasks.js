@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const users = require("../schema/users")
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@hikehustle.vxk6cxv.mongodb.net`;
+const uri = process.env.DATABASE_URL;
 
 
 module.exports = async (req,res,next) => {
