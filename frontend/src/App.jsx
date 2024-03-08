@@ -22,7 +22,7 @@ import axios from 'axios'
 
 initDB(DBConfig)
 
-const apiUrl = "http://localhost:8080"
+const apiUrl = "http://hikehustle.api.arsanya.in"
 
 
 function App() {
