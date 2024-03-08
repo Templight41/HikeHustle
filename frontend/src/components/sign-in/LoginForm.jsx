@@ -1,8 +1,9 @@
 import { useState } from "react"
 import axios from "axios"
 import validator from "validator"
+import { json, Link } from "react-router-dom";
 
-export default function LoginForm({apiUrl}) {
+export default function LoginForm({apiUrl, setAuthToken, authToken}) {
     let [error, setError] = useState("");
     
     let [loginForm, setLoginForm] = useState(
@@ -25,7 +26,9 @@ export default function LoginForm({apiUrl}) {
             setError("")
             axios.post(`${apiUrl}/login`, {...loginForm})
             .then((res) => {
-                localStorage.setItem("token", JSON.stringify(res.data))
+                setAuthToken(res.data.accessToken)
+                localStorage.setItem("token", JSON.stringify({accessToken: res.data.accessToken, refreshToken: res.data.refreshToken}))
+                localStorage.setItem("userData", JSON.stringify({email: res.data.email, username: res.data.username, level: res.data.level}))
             })
             .then((res) => {
                 window.location = "/"
@@ -61,7 +64,7 @@ export default function LoginForm({apiUrl}) {
             </div>
             <p id="error">{error}</p>
             <button id="submit" className="submit" type="button" onClick={formSubmit}>Login</button>
-            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+            <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
         </form>
     )
 }

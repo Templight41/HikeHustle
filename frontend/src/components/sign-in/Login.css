@@ -91,6 +91,10 @@
     margin: 12px auto 8px auto;
 }
 
+.submit:hover {
+    background-color: #75413bc7;
+}
+
 .submit + p {
     text-align: center;
 }

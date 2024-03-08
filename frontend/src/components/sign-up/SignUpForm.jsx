@@ -1,9 +1,10 @@
 import { useState } from "react"
 import axios from "axios"
 import validator from "validator";
+import { Link } from "react-router-dom";
 
 
-export default function SignUpForm({apiUrl}) {
+export default function SignUpForm({apiUrl, authToken, setAuthToken}) {
     let [error, setError] = useState("");
     
     let [signUpForm, setSignUpForm] = useState(
@@ -25,14 +26,17 @@ export default function SignUpForm({apiUrl}) {
 
             // Submit form
             setError("")
-            axios.post(`${apiUrl}/signup`, {...signUpForm}, {withCredentials: true})
+            axios.post(`${apiUrl}/signup`, {...signUpForm}, {withCredentials: false})
             .then((res) => {
-                localStorage.setItem("token", JSON.stringify(res.data))
+                setAuthToken(res.data.accessToken)
+                localStorage.setItem("token", JSON.stringify({accessToken: res.data.accessToken, refreshToken: res.data.refreshToken}))
+                localStorage.setItem("userData", JSON.stringify({email: res.data.email, username: res.data.username, level: res.data.level}))
             })
             .then((res) => {
                 window.location = "/"
             })
             .catch((err) => {
+                console.log(err)
                 if(err.response.status == 409) setError("User already exists, login")
             })
         } else if(!validator.isEmail(signUpForm.email)){
@@ -68,7 +72,7 @@ export default function SignUpForm({apiUrl}) {
             </div>
             <p id="error">{error}</p>
             <button id="submit" className="submit" type="button" onClick={formSubmit}>Sign Up</button>
-            <p>Already have an account? <a href="/login">Sign In</a></p>
+            <p>Already have an account? <Link to="/login">Sign In</Link></p>
         </form>
     )
 }

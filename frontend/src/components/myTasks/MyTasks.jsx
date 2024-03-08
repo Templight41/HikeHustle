@@ -7,31 +7,32 @@ import DoneIcon from '@mui/icons-material/Done';
 import CloseIcon from '@mui/icons-material/Close';
 import Game from "../game/Game.jsx";
 
-export default function MyTasks({toggleMenu, isMenuOpen, allTodos, addTodo, deleteTodo, completeTodo, userData, todos, petStatus}) {
+export default function MyTasks(props) {
 
     // console.log(allTodos)
 
     return (
         <>
-            <Header toggleMenu={toggleMenu} userData={userData}/>
+            <Header toggleMenu={props.toggleMenu} userData={props.userData}/>
             <div className="bodyContent">
-                {isMenuOpen && (
+                {props.isMenuOpen && (
                     <SideBar />
                 )}
                 <div className="tasksApp">
                     <div className="tasksBoxContainer todoContainer">
-                        <h2 className="tasksHeading">My Tasks &nbsp; {todos.length} <TodoInput addTodo={addTodo}/></h2>
+                        <h2 className="tasksHeading">My Tasks &nbsp; {props.todos.length} <TodoInput addTodo={props.addTodo}/></h2>
                         <div className="tasksContainer todo">
-                            {todos.length > 0 ? allTodos.map((todo) => {
-                                if(todo.completed !== true) return <li key={todo.id}>{todo.task}<button onClick={() => completeTodo(todo.id)}><DoneIcon/></button></li>
-                            }) : <li>No tasks<TodoInput addTodo={addTodo}/></li>}
+                            {props.todos.length > 0 ? props.todos.map((todo) => {
+                                // console.log(todo)
+                                return <li key={todo.taskId}>{todo.task}<button onClick={() => props.completeTodo(todo.taskId)}><DoneIcon/></button></li>
+                            }) : <li>No tasks<TodoInput addTodo={props.addTodo}/></li>}
                         </div>
                     </div>
                     <div className="tasksBoxContainer completeContainer">
                         <h2 className="tasksHeading">Completed</h2>
                         <div className="tasksContainer complete">
-                            {allTodos.map((todo) => {
-                                if(todo.completed === true) return <li key={todo.id}>{todo.task}<button onClick={() => deleteTodo(todo.id)}><CloseIcon/></button></li>
+                            {props.completedTodos.map((todo) => {
+                                return <li key={todo.taskId}>{todo.task}<button onClick={() => props.deleteTodo(todo.taskId)}><CloseIcon/></button></li>
                             })}
                         </div>
 
@@ -40,7 +41,7 @@ export default function MyTasks({toggleMenu, isMenuOpen, allTodos, addTodo, dele
                         <div className="gameContainerTasks">
                             <h2 className="tasksHeading">Progress</h2>
                             <div className="gameElementContainer">
-                                <Game petStatus={petStatus}/>
+                                <Game petStatus={props.petStatus}/>
                             </div>
                         </div>
 

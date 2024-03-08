@@ -4,11 +4,11 @@ import { teal } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from "react-router-dom";
 
-export default function Header({toggleMenu, userData}) {
+export default function Header(props) {
     return (
         <div className="header">
             <div className="sandwichButton">
-                <button id='sideBarButton' onClick={toggleMenu}>
+                <button id='sideBarButton' onClick={props.toggleMenu}>
                     <MenuIcon style={{
                         fontSize: 34,
                         width: 34
@@ -23,7 +23,7 @@ export default function Header({toggleMenu, userData}) {
                 <Link to="#">
                     <Avatar
                         sx={{ bgcolor: teal[800] }}
-                        alt="U"
+                        alt={props.userData.username.toUpperCase()}
                         src="/broken-image.jpg"
                         style={{
                             width: 'inherit',
@@ -31,7 +31,7 @@ export default function Header({toggleMenu, userData}) {
                             fontSize: 14
                         }}
                     >
-                        {(() => {if(userData.length > 0) return userData.username[0].toUpperCase()})()}
+                        {(() => {if(props.userData.length > 0) return props.userData.username[0].toUpperCase()})()}
                     </Avatar>
                 </Link>
             </div>

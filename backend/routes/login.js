@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const Users = require("../schema/users")
 const jwt = require('jsonwebtoken')
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@hikehustle.vxk6cxv.mongodb.net`;
+const uri = process.env.DATABASE_URL;
 
 module.exports = async (req, res, next) => {
     const user = req.body
@@ -24,10 +24,9 @@ module.exports = async (req, res, next) => {
             throw new Error("Wrong password")
         }
 
-        const token = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_LOGIN_KEY, { expiresIn: '15s' })
+        const token = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_ACCESS_KEY, { expiresIn: '2h' })
         const refreshToken = jwt.sign({username: userDbData.username, email: user.email}, process.env.JWT_REFRESH_KEY)
-        console.log("login")
-        res.status(200).json({token: token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email, level: userDbData.level})
+        res.status(200).json({accessToken: token, refreshToken: refreshToken, username: userDbData.username, email: userDbData.email, level: userDbData.level})
 
     } catch (error) {
         console.log(error, "error")
