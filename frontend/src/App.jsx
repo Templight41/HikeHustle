@@ -27,11 +27,11 @@ const apiUrl = "http://hikehustle.api.arsanya.in"
 
 function App() {
   let token = JSON.parse(localStorage.getItem("token"));
-  let localUserData = JSON.parse(localStorage.getItem("userData"))
+  // let localUserData = JSON.parse(localStorage.getItem("userData"))
   const [ authToken, setAuthToken ] = useState(() => token ? token.accessToken : null)
   const [ updateComplete, setUpdateComplete ] = useState(false)
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-  const [ userData, setUserData ] = useState(() => localUserData ? localUserData : null)
+  const [ userData, setUserData ] = useState({username: "user", level: 1})
   const [ allTodos, setAllTodos ] = useState([])
   const [ todos, setTodos ] = useState([])
   const [ completedTodos, setCompletedTodos ] = useState([])
@@ -59,6 +59,7 @@ function App() {
 
   // getting tasks
   useEffect(() => {
+    console.log(authToken)
     if(authToken) {
 
       axios.post(apiUrl+'/tasks/all', { accessToken: authToken })
@@ -73,6 +74,8 @@ function App() {
         console.log(err.response.status)
         if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
       })
+    } else if(!authToken && !ignoreUrlList.includes(window.location.pathname)) {
+      window.location = "/login"
     }
   }, [])
 
