@@ -1,7 +1,6 @@
 const mongoose = require("mongoose")
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
-const Users = require("../schema/users");
+const tasks = require("../schema/tasks");
+const users = require("../schema/users");
 
 const uri = process.env.DATABASE_URL;
 
@@ -12,12 +11,23 @@ module.exports = async (req, res, next) => {
     
     await mongoose.connect(uri);
 
-    await Users.findOneAndUpdate({ email: body.email }, { $set : { "todo.$[el].completed": body.completed, }, $inc : { level : 1 } }, { arrayFilters: [{"el.taskId": body.taskId}] })
+    const filter = { taskId: body.taskId }
+    const update = { completed: body.completed }
+
+    await tasks.findOneAndUpdate(filter, update)
     .then((result) => {
         console.log(result)
-        res.status(200).json({msg: "updated", allTasks: result.todo})
+        users.findOneAndUpdate({email: body.email}, {$inc : {level: 1}})
+        .then((result) => {
+            console.log(result)
+        })
+        .catch(err=> console.error(err))
+
+        
+        res.status(200).json({msg: "updated", allTasks: result})
     })
     .catch((err) => {
+        console.error(err)
         res.status(500).json({msg: err})
     })
 }

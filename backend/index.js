@@ -22,7 +22,10 @@ const addTasks = require("./routes/addTasks");
 const deleteTasks = require("./routes/deleteTasks");
 const updateTasks = require("./routes/updateTasks");
 const middleware = require("./routes/middleware")
-const allTasks = require("./routes/allTasks")
+const allTasks = require("./routes/allTasks");
+const user = require("./routes/user");
+
+app.post("/user", middleware, user)
 
 app.post("/tasks/all", middleware, allTasks)
 

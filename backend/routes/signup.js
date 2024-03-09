@@ -18,11 +18,12 @@ module.exports = async (req, res, next) => {
         const refreshToken = jwt.sign({username: user.username, email: user.email}, process.env.JWT_REFRESH_KEY)
         
         // inserting into database
-        await Users.insertMany({username: user.username, refreshToken: refreshToken, email: user.email, password: hashedPassword, level: 1})
+        await Users.create({username: user.username, refreshToken: refreshToken, email: user.email, password: hashedPassword, level: 1, todo: [{taskId: 1, task: "sample task", completed: "false", completeBy: "body.completeBy"}]})
         .then((result) => {
             res.status(200).json({accessToken: token, refreshToken: refreshToken, username: user.username, email: user.email, level: 1})
         })
         .catch((err) => {
+            console.error(err)
             res.status(409).json({error: "User exists"})
         })
 

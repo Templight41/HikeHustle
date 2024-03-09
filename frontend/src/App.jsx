@@ -22,16 +22,15 @@ import axios from 'axios'
 
 initDB(DBConfig)
 
-const apiUrl = "https://hikehustle.api.arsanya.in"
+const apiUrl = "http://localhost:8080"
 
 
 function App() {
   let token = JSON.parse(localStorage.getItem("token"));
-  // let localUserData = JSON.parse(localStorage.getItem("userData"))
   const [ authToken, setAuthToken ] = useState(() => token ? token.accessToken : null)
   const [ updateComplete, setUpdateComplete ] = useState(false)
   const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-  const [ userData, setUserData ] = useState({username: "user", level: 1})
+  const [ userData, setUserData ] = useState({username: "", level: 1})
   const [ allTodos, setAllTodos ] = useState([])
   const [ todos, setTodos ] = useState([])
   const [ completedTodos, setCompletedTodos ] = useState([])
@@ -61,15 +60,21 @@ function App() {
   useEffect(() => {
     if(authToken) {
 
+      axios.post(apiUrl+"/user", { accessToken: authToken })
+      .then((res) => {
+        setUserData(() => {
+          const user = res.data.user
+          return { username: user.username, level: user.level, email: user.email }
+        })
+      })
+
+
       axios.post(apiUrl+'/tasks/all', { accessToken: authToken })
       .then((res) => {
         setAllTodos(res.data.todo)
-        setUserData((user) => {
-          return { ...user, level: res.data.level }
-        })
       })
       .catch((err) => {
-        // console.log(err.response.status)
+        console.log(err.response.status)
         if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
       })
     } else if(!authToken && !ignoreUrlList.includes(window.location.pathname)) {

@@ -21,7 +21,7 @@ export default function Home(props) {
     const d = new Date();
     let month = months[d.getMonth()];
     let date = d.getDate()
-    let week = weeks[d.getDay()]
+    let week = weeks[d.getDay() - 1]
 
     const [todayDate, setTodayDate] = useState(`${week}, ${month} ${date}`)
     
@@ -76,7 +76,7 @@ export default function Home(props) {
                             <div className="tasksContainerBottom">
                                 {(() => {
                                     if(props.homePageStatus == "todos") {
-                                        if(props.todos.length > 0) return props.todos.map((todo) => {
+                                        if(props.todos.length > 0) return props.todos.slice(0,3).map((todo) => {
                                             return <li key={todo.taskId}>{todo.task}<button onClick={() => props.completeTodo(todo.taskId)}><DoneIcon/></button></li>
                                         })
                                         return <TodoInput addTodo={props.addTodo} buttonText={"Add task"}/>

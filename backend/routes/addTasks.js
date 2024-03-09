@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const Users = require("../schema/users");
+const tasks = require("../schema/tasks")
 
 const uri = process.env.DATABASE_URL;
 
@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     
     await mongoose.connect(uri);
 
-    await Users.findOneAndUpdate( { email: body.email } , {$push : {todo: {taskId: body.taskId, task: body.task, completed: body.completed, completeBy: body.completeBy}} })
+    await tasks.insertMany({ email: body.email, taskId: body.taskId, task: body.task, completed: body.completed, completeBy: body.completeBy })
     .then((result) => {
         console.log(result)
         res.status(200).json({msg: "added"})
