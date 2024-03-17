@@ -75,7 +75,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err.response.status)
-        if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+        if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/refresh"
       })
     } else if(!authToken && !ignoreUrlList.includes(window.location.pathname)) {
       window.location = "/login"
@@ -126,7 +126,7 @@ function App() {
     })
     .catch((err) => {
       // console.log(err.response.status)
-      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/refresh"
       if(err.response.status == 500) console.log(err.response.data.msg)
     })
 
@@ -146,7 +146,7 @@ function App() {
     })
     .catch((err) => {
       console.log(err.response.status)
-      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/refresh"
       if(err.response.status == 500) console.log(err.response.data.msg)
     })
   }
@@ -204,7 +204,7 @@ function App() {
     .catch((err) => {
       console.log(err.response.status)
       if(err.code == 11000) console.log("duplicate") 
-      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/login"
+      if(err.response.status == 401 && !ignoreUrlList.includes(window.location.pathname)) window.location = "/refresh"
       if(err.response.status == 500) console.log(err.response.data.msg)
     })
 
@@ -222,7 +222,7 @@ function App() {
         <Route path='/signup' element={<SignUp authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>} />
         <Route path='/login' element={<Login authToken={authToken} setAuthToken={setAuthToken} apiUrl={apiUrl}/>} />
         <Route path='/logout' element={<Logout />} />
-        <Route path='/refresh' element={<Refresh apiUrl={apiUrl}/>} />
+        <Route path='/refresh' element={<Refresh apiUrl={apiUrl} authToken={authToken}/>} />
       </Routes>
     </BrowserRouter>
     

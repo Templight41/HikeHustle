@@ -2,7 +2,7 @@
     width: 100%;
     height: 62px;
     min-height: 62px;
-    background-color: #303030;
+    /* background-color: #303030; */
     align-self: start;
     display: flex;
     justify-content: space-between;
